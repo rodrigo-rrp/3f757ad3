@@ -21,5 +21,8 @@
 
 #app .container-view {
   padding: 20px;
+  max-height: 80%;
+  overflow: auto;
+  position: relative;
 }
 
