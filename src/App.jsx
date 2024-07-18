@@ -1,17 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-import Header from './Header.jsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+
+import Header from './components/Header.jsx'
+import Activities from './components/Activities.jsx'
+import { ActivityProvider } from './contexts/activityContext.js'
+
+const queryClient = new QueryClient()
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Activities />,
+  },
+])
 
 const App = () => {
   return (
-    <div className='container'>
-      <Header/>
-      <div className="container-view">Some activities should be here</div>
-    </div>
-  );
-};
+    <QueryClientProvider client={queryClient}>
+      <ActivityProvider>
+        <div className='container'>
+          <Header />
+          <div className='container-view'>
+            <RouterProvider router={router} />
+          </div>
+        </div>
+      </ActivityProvider>
+    </QueryClientProvider>
+  )
+}
 
-ReactDOM.render(<App/>, document.getElementById('app'));
+const container = document.getElementById('app')
+const root = createRoot(container)
+root.render(<App />)
 
-export default App;
+export default App
